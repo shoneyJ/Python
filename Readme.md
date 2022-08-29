@@ -8,3 +8,10 @@ draw pile. The draw pile is kept face-down in front of the player. Each player a
 
 1. A new deck should contain 40 cards
 2. A shuffle function should shuffle a deck Hint: Consider mocking Math.random() or the equivalent of your chosen language
+
+
+### Task 2: Draw cards
+Each turn, both players draw the top card. If there are no more cards in the draw pile, shuffle the discard
+pile and use those cards as the new draw pile. Once a player has no cards in either their draw or discard
+pile, that player loses. Test: If a player with an empty draw pile tries to draw a card, the discard pile is
+shuffled into the draw pile.

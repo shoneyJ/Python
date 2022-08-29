@@ -1,21 +1,7 @@
 from random import randint
 
-
-class Card:
-
-    def __init__(self, number):
-        self.number = number
-
-    def info(self):
-        print(self.number)
-
-
-# task 1 create a deck of card showing number 1 to 10
-# each number is in the deck 4 times
-deck = []
-for times in range(0,4):
-    for cardNum in range(1, 11):
-        deck.append(Card(cardNum))
+from Card import Card
+from Player import Player
 
 
 def shuffle(deck, n):
@@ -25,19 +11,48 @@ def shuffle(deck, n):
         # Pick a random index from 0 to i
         j = randint(0, i+1)
 
-        # Swap arr[i] with the element at random index
+    # Swap arr[i] with the element at random index
         deck[i], deck[j] = deck[j], deck[i]
 
 
+def main():
+    # task 1 create a deck of card showing number 1 to 10
+    # each number is in the deck 4 times
+    deck = []
+    for cardNum in range(1, 11):
+        deck.append(Card(cardNum))
 
-n = len(deck)
+    n = len(deck)
+    shuffle(deck, n)
 
-shuffle(deck, n)
 
-for shuffledCard in deck:
-    shuffledCard.info()
+# each players receives 20 cards from shuffled.
 
-# end of task 1
+    player1 = Player()
 
+    player2 = Player()
+
+    tempdeck = deck
+
+
+    print ("deck info")
+    for obj in deck:
+        print (obj.info())
+
+   
+    while n > 0:
+        player1.draw(tempdeck[0])
+        tempdeck.pop(0)
+        player2.draw(tempdeck[0])
+        tempdeck.pop(0)
+        n = n-2
+        
+    print ("player one info")
+    player1.print()
+
+    print ("player two info")
+    player2.print()
+
+
+main()
 # Draw cards.
-    
