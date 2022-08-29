@@ -14,12 +14,22 @@ class Player:
         else:
             return 'null'
 
+    def showTopDiscardedCard(self):
+        if(len(self.discardPile) > 0):
+            return self.discardPile[0]
+        else:
+            return 'null'
+
     def win(self, card):
         self.discardPile.append(card)
 
     def lose(self):
         if(len(self.myCards) > 0):
             self.myCards.pop(0)
+
+    def onTieWin(self, otherCard):
+        self.myCards.append(self.discardPile[0])
+        self.myCards.append(otherCard)
 
     def getRemainingCount(self):
         return len(self.myCards) + len(self.discardPile)

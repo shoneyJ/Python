@@ -46,16 +46,7 @@ async def drawCardForPlayer(player1, player2, deck):
     await asyncio.sleep(5)
 
 
-async def play(player1, player2):
-    if hasattr(player1.showTopCard(), 'get'):
-        playCard1 = player1.showTopCard().get()
-    else:
-        player2.printWinner()
-
-    if hasattr(player2.showTopCard(), 'get'):
-        playCard2 = player2.showTopCard().get()
-    else:
-        player1.printWinner()
+async def play(player1, player2, playCard1, playCard2):
 
     if(playCard1 > playCard2):
         player1.win(player2.showTopCard())
@@ -67,7 +58,7 @@ async def play(player1, player2):
         player1.lose()
         player2.printRoundWinner()
     elif(playCard1 == playCard2):
-        onTie()
+        return 'Tie'
 
     await asyncio.sleep(2)
 
@@ -94,15 +85,35 @@ async def main():
 
     while player1.showTopCard() != 'null' or player2.showTopCard() != 'null':
 
+        wasTie = False
+        if hasattr(player1.showTopCard(), 'get'):
+            playCard1 = player1.showTopCard().get()
+
+        else:
+            player2.printWinner()
+            break
+
+        if hasattr(player2.showTopCard(), 'get'):
+            playCard2 = player2.showTopCard().get()
+        else:
+            player1.printWinner()
+            break
+
         if(player1.showTopCard() != 'null' and player2.showTopCard() != 'null'):
             player1.printPlaying()
             player2.printPlaying()
 
-        task4 = asyncio.create_task(play(player1, player2))
+        task4 = asyncio.create_task(
+            play(player1, player2, playCard1.playCard2))
 
-        value =await task4
+        value = await task4
 
-        print (value)
+        if(value == 'Tie'):
+            wasTie = True
+            player1.lose()
+            player2.lose()
+
+        print(value)
 
         # print ('player one cards {}'.format(player1.showTopCard()))
         # print ('player two cards {}'.format(player2.showTopCard()))
