@@ -104,7 +104,7 @@ async def main():
             player2.printPlaying()
 
         task4 = asyncio.create_task(
-            play(player1, player2, playCard1.playCard2))
+            play(player1, player2, playCard1, playCard2))
 
         value = await task4
 
