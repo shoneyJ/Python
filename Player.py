@@ -2,7 +2,7 @@ class Player:
 
     def __init__(self, name):
         self.myCards = []
-        self.discardPile = []
+        self.discardPile = []        
         self.name = name
 
     def draw(self, card):
@@ -28,8 +28,12 @@ class Player:
             self.myCards.pop(0)
 
     def onTieWin(self, otherCard):
-        self.myCards.append(self.discardPile[0])
+        self.myCards.append(self.discardPile.pop(0))
         self.myCards.append(otherCard)
+    
+    def onTieLoss(self, otherCard):
+        self.myCards.remove(otherCard)
+       
 
     def getRemainingCount(self):
         return len(self.myCards) + len(self.discardPile)
@@ -37,7 +41,7 @@ class Player:
     def printPlaying(self):
         self.totalCards = len(self.myCards) + len(self.discardPile)
         s = '{} ({} cards):{}'.format(
-            self.name, self.totalCards, self.showTopCard().get())
+            self.name, len(self.myCards), self.showTopCard().get())
         print(s)
 
     def printRoundWinner(self):

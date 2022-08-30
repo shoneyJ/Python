@@ -46,25 +46,34 @@ async def drawCardForPlayer(player1, player2, deck):
     await asyncio.sleep(5)
 
 
-async def play(player1, player2, playCard1, playCard2):
+async def play(player1, player2, playCard1, playCard2, tieDeck):
 
     if(playCard1 > playCard2):
         player1.win(player2.showTopCard())
         player2.lose()
         player1.printRoundWinner()
 
+        while len(tieDeck) > 0:
+            player1.win(tieDeck.pop(0))
+            # player2.onTieLoss(card)
+
     elif(playCard1 < playCard2):
         player2.win(player1.showTopCard())
         player1.lose()
         player2.printRoundWinner()
+
+        while len(tieDeck) > 0:
+            player2.win(tieDeck.pop(0))
+            # player1.onTieLoss(card)
+
     elif(playCard1 == playCard2):
-        return 'Tie'
+        tieDeck.append(player1.showTopCard())
+        tieDeck.append(player2.showTopCard())
+        player1.lose()
+        player2.lose()
 
     await asyncio.sleep(2)
-
-
-async def onTie():
-    print("To do")
+    return tieDeck
 
 
 async def main():
@@ -83,9 +92,9 @@ async def main():
         drawCardForPlayer(player1, player2, shuffledDeck))
     await task3
 
+    tieDeck = []
     while player1.showTopCard() != 'null' or player2.showTopCard() != 'null':
 
-        wasTie = False
         if hasattr(player1.showTopCard(), 'get'):
             playCard1 = player1.showTopCard().get()
 
@@ -98,22 +107,18 @@ async def main():
         else:
             player1.printWinner()
             break
+        if not hasattr(player1.showTopCard(), 'get') and not hasattr(player2.showTopCard(), 'get'):
+            print("No winner in this round!")
+            break
 
         if(player1.showTopCard() != 'null' and player2.showTopCard() != 'null'):
             player1.printPlaying()
             player2.printPlaying()
 
         task4 = asyncio.create_task(
-            play(player1, player2, playCard1, playCard2))
+            play(player1, player2, playCard1, playCard2, tieDeck))
 
-        value = await task4
-
-        if(value == 'Tie'):
-            wasTie = True
-            player1.lose()
-            player2.lose()
-
-        print(value)
+        tieDeck = await task4
 
         # print ('player one cards {}'.format(player1.showTopCard()))
         # print ('player two cards {}'.format(player2.showTopCard()))
