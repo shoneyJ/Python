@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 SQLALCHEMY_DATABASE_URL = "postgresql://writeonce:Success33##@postgres-container:5432/writeonce-db"
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL
+    SQLALCHEMY_DATABASE_URL,pool_pre_ping=True
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
