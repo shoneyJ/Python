@@ -1,0 +1,5 @@
+
+fastapi==0.111.0
+fastapi-cli==0.0.4
+SQLAlchemy==2.0
+psycopg2==2.9.9

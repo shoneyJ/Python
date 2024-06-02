@@ -1,0 +1,14 @@
+services:
+ pypi:
+  container_name: pyapi
+  build:
+    context: .
+  ports:
+    - "8083:8083"
+  networks:
+    - default
+
+networks:
+  default:
+    name: writeonce-network
+    external: true
