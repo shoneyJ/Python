@@ -33,3 +33,12 @@ def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
     db.commit()
     db.refresh(db_item)
     return db_item
+
+
+def create_blog(db: Session, blog: schemas.BlogCreate):
+    
+    db_blog = models.Blog(title=blog.title, description=blog.description,category=blog.category)
+    db.add(db_blog)
+    db.commit()
+    db.refresh(db_blog)
+    return db_blog

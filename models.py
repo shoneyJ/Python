@@ -24,3 +24,11 @@ class Item(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="items")
+
+class Blog(Base):
+    __tablename__="blogs"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String, index=True)
+    description = Column(String)
+    category = Column(String)

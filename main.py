@@ -5,14 +5,14 @@ from sqlalchemy.orm import Session
 
 import models
 from database import SessionLocal, engine
-from routers import users
+from routers import users,blogs
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
 app.include_router(users.router)
-
+app.include_router(blogs.router)
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
