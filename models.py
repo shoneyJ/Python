@@ -1,7 +1,10 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from database import Base
+# from database import Base
+
+Base = declarative_base()
 
 
 class User(Base):
@@ -25,8 +28,9 @@ class Item(Base):
 
     owner = relationship("User", back_populates="items")
 
+
 class Blog(Base):
-    __tablename__="blogs"
+    __tablename__ = "blogs"
 
     id = Column(Integer, primary_key=True)
     title = Column(String, index=True)

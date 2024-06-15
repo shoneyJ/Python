@@ -1,15 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException
-import models, schemas,crud
-from database import SessionLocal, engine
-from sqlalchemy.orm import Session
-from dependencies import get_token_header, get_db
 
-models.Base.metadata.create_all(bind=engine)
+# from database import  engine
+from sqlalchemy.orm import Session
+
+import crud
+import models
+import schemas
+from dependencies import get_db, get_token_header
+
+# models.Base.metadata.create_all(bind=engine)
 
 router = APIRouter(
-     prefix="/users",
-     dependencies=[Depends(get_token_header),Depends(get_db)],
-    responses={404: {"User": "Not found"}}
+    prefix="/users",
+    dependencies=[Depends(get_token_header), Depends(get_db)],
+    responses={404: {"User": "Not found"}},
 )
 
 
