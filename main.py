@@ -1,11 +1,11 @@
 import asyncio
-from contextlib import asynccontextmanager
+# from contextlib import asynccontextmanager
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, Response
 
-# from sqlalchemy.orm import Session
-from database import Database
+from sqlalchemy.orm import Session
+from database import SessionLocal
 from routers import blogs, users
 
 # models.Base.metadata.create_all(bind=engine)
@@ -30,15 +30,15 @@ app = FastAPI()
 app.include_router(users.router)
 app.include_router(blogs.router)
 
-# @app.middleware("http")
-# async def db_session_middleware(request: Request, call_next):
-#     response = Response("Internal server error", status_code=500)
-#     try:
-#         request.state.db = SessionLocal()
-#         response = await call_next(request)
-#     finally:
-#         request.state.db.close()
-#     return response
+@app.middleware("http")
+async def db_session_middleware(request: Request, call_next):
+    response = Response("Internal server error", status_code=500)
+    try:
+        request.state.db = SessionLocal()
+        response = await call_next(request)
+    finally:
+        request.state.db.close()
+    return response
 
 
 # Dependency

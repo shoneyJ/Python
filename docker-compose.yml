@@ -5,10 +5,10 @@ services:
     context: .
   ports:
     - "8083:8083"
-#   networks:
-#     - default
+  networks:
+    - default
 
-# networks:
-#   default:
-#     name: writeonce-network
-#     external: true
+networks:
+  default:
+    name: writeonce-network
+    external: true
